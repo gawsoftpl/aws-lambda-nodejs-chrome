@@ -34,15 +34,10 @@ jobs:
     - name: Build the Docker image
       run: |
             
-            ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:16 -c "node --version"`
-            GOOGLE_VERSION=`curl "https://omahaproxy.appspot.com/all.json?os=linux;channel=stable" | jq '.[]' | jq .versions | jq -r '.[0].version'`
-            CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}-linux
             
-            echo "Check ${CHECK_VERSION} exists"
-            docker manifest inspect gawsoft/aws-node-chrome:${CHECK_VERSION}
-
+            echo 4
             
-            if [[ $? -eq 0]];
+            if [ $? -eq 0]
             then
               echo "Image with this version exists"
               exit 0
