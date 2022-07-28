@@ -43,6 +43,7 @@ jobs:
             echo 1 > /tmp/check
             docker manifest inspect gawsoft/aws-node-chrome:${CHECK_VERSION} || echo 0 > /tmp/check 
             CHECK=`cat /tmp/check`
+            echo $CHECK
             if [ $CHECK == "1" ]; then 
             echo "Image with this version already exists"
             exit 0 

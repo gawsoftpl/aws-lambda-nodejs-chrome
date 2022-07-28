@@ -20,7 +20,7 @@ RUN yum update -y  \
     && node --version > /node-version.txt \
     && yum clean all \
     && rm -rf /var/cache/yum \
-    && rm -rf /opt/google/chrome/google-chrome \
+    && rm -rf /opt/google/chrome/chrome \
     && rm -rf /etc/alternatives/google-chrome
 
 # Create chrome user

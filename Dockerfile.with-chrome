@@ -19,8 +19,7 @@ RUN yum update -y  \
     && /opt/google/chrome/chrome --version | sed  's/Google Chrome //g'| sed 's/ unknown//g' > /chrome-version.txt \
     && node --version > /node-version.txt \
     && yum clean all \
-    && rm -rf /var/cache/yum \
-    && rm -rf /etc/alternatives/google-chrome
+    && rm -rf /var/cache/yum 
 
 # Create chrome user
 RUN mkdir -p /tmp/app \
