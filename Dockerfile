@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/nodejs:16 AS build-chrome
 
 # Install yarn
-RUN npm install --global yarn
+RUN npm install --location=global yarn
 
 # Install chrome
 RUN echo -e '\

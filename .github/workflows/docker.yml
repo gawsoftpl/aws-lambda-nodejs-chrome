@@ -36,6 +36,8 @@ jobs:
             VERSION=$RELEASE_VERSION
             docker image build -t gawsoft/aws-node-chrome:$VERSION .
             VERSION=`docker run --name=tmp --rm --entrypoint=/bin/sh gawsoft/aws-node-chrome:$VERSION -c "cat /node-version.txt /chrome-version.txt" | tr '\n' '-'`
+            VERSION=${VERSION}linux
+            echo $VERSION
             docker container rm --force tmp || true
             docker image push gawsoft/aws-node-chrome:$VERSION
             # Publish latest
