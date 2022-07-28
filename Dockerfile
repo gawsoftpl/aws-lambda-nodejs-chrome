@@ -16,6 +16,8 @@ gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub\n\
 
 RUN yum update -y  \
     && yum install google-chrome-stable python3 make g++ -y \
+    && /opt/google/chrome/chrome --version | sed  's/Google Chrome //g'| sed 's/ unknown//g' > /chrome-version.txt \
+    && node --version > /node-version.txt \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && rm -rf /opt/google/chrome/google-chrome \

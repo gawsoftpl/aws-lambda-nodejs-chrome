@@ -7,12 +7,12 @@ on:
   schedule:
     - cron: '39 12 * * *'
   push:
+    branches: 
+    - main
     tags:
     - '*'
 
 jobs:
-
-
   docker-build:
     runs-on: ubuntu-latest
     needs: deploy-package
@@ -36,6 +36,8 @@ jobs:
       run: |
             VERSION=$RELEASE_VERSION
             docker image build -t gawsoft/aws-node-chrome:$VERSION .
+            VERSION=`docker run --name=tmp --rm --entrypoint=/bin/sh gawsoft/aws-node-chrome:$VERSION -c "cat /node-version.txt /chrome-version.txt" | tr '\n' '-'`
+            docker container rm --force tmp || true
             docker image push gawsoft/aws-node-chrome:$VERSION
             # Publish latest
             docker image tag gawsoft/aws-node-chrome:$VERSION gawsoft/aws-node-chrome:latest
