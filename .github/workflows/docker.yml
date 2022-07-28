@@ -6,9 +6,9 @@ name: Publish docker
 on:
   schedule:
     - cron: '4 16 * * *'
-  # push:
-  #   branches: 
-  #   - 'main'
+  push:
+    branches: 
+    - 'main'
     # tags:
     # - '*'
 
