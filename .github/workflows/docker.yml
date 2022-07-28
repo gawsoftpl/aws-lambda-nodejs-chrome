@@ -38,7 +38,8 @@ jobs:
             CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}
             
             echo "Check ${CHECK_VERSION} exists"
-            docker manifest inspect gawsoft/aws-node-chrome-libs:${CHECK_VERSION} && echo 1 > /tmp/check || echo 0 > /tmp/check
+            echo 0 > /tmp/check
+            docker manifest inspect gawsoft/aws-node-chrome-libs:${CHECK_VERSION} || echo 1 > /tmp/check 
             CHECK=`cat /tmp/check`
             if [ $CHECK -eq 0 ]; then 
             echo "Image with this version already exists"
