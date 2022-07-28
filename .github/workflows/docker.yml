@@ -35,12 +35,13 @@ jobs:
       run: |
             ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:16 -c "node --version"`
             GOOGLE_VERSION=`curl "https://omahaproxy.appspot.com/all.json?os=linux;channel=stable" | jq '.[]' | jq .versions | jq -r '.[0].version'`
-            CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}
+            CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}-linux
             
             echo "Check ${CHECK_VERSION} exists"
             echo 1 > /tmp/check
             docker manifest inspect gawsoft/aws-node-chrome-libs:${CHECK_VERSION} || echo 0 > /tmp/check 
             CHECK=`cat /tmp/check`
+            echo $CHECK
             if [ $CHECK == "1" ]; then 
             echo "Image with this version already exists"
             exit 0 
@@ -57,5 +58,4 @@ jobs:
             # Publish latest
             docker image tag aws-node-chrome gawsoft/aws-node-chrome-libs:latest
             docker image push gawsoft/aws-node-chrome-libs:latest
-        
         
