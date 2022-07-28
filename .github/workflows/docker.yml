@@ -33,14 +33,14 @@ jobs:
         images: gawsoft/aws-node-chrome
     - name: Build the Docker image
       run: |
-            VERSION=$RELEASE_VERSION
-            docker image build -t gawsoft/aws-node-chrome:$VERSION .
-            VERSION=`docker run --name=tmp --rm --entrypoint=/bin/sh gawsoft/aws-node-chrome:$VERSION -c "cat /node-version.txt /chrome-version.txt" | tr '\n' '-'`
+            docker image build -t aws-node-chrome .
+            VERSION=`docker run --name=tmp --rm --entrypoint=/bin/sh aws-node-chrome -c "cat /node-version.txt /chrome-version.txt" | tr '\n' '-'`
             VERSION=${VERSION}linux
             echo $VERSION
             docker container rm --force tmp || true
+            docker image tag aws-node-chrome gawsoft/aws-node-chrome:$VERSION
             docker image push gawsoft/aws-node-chrome:$VERSION
             # Publish latest
-            docker image tag gawsoft/aws-node-chrome:$VERSION gawsoft/aws-node-chrome:latest
+            docker image tag aws-node-chrome gawsoft/aws-node-chrome:latest
             docker image push gawsoft/aws-node-chrome:latest
         
