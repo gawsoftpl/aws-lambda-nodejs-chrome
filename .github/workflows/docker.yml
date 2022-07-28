@@ -31,7 +31,6 @@ jobs:
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
         images: gawsoft/aws-node-chrome
-
     - name: Check version exists and Build the Docker image
       run: |
             ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:16 -c "node --version"`
