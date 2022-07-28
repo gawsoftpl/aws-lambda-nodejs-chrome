@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Publish docker with chrome library only
+name: Publish docker with chrome
 
 on:
   schedule:
@@ -36,10 +36,10 @@ jobs:
       run: |
             ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:16 -c "node --version"`
             GOOGLE_VERSION=`curl "https://omahaproxy.appspot.com/all.json?os=linux;channel=stable" | jq '.[]' | jq .versions | jq -r '.[0].version'`
-            CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}
+            CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}-linux
             
             echo "Check ${CHECK_VERSION} exists"
-            CHECK=`docker manifest inspect gawsoft/aws-node-chrome-libs:${CHECK_VERSION} && echo 0 || echo 1` 
+            CHECK=`docker manifest inspect gawsoft/aws-node-chrome:${CHECK_VERSION} && echo 0 || echo 1` 
 
             if [ $CHECK -eq 0 ]; then 
             echo "Image with this version already exists"
@@ -47,14 +47,14 @@ jobs:
             fi
 
             echo "Image not exists start deploy"
-            docker image build -t aws-node-chrome .
+            docker image build -t aws-node-chrome -f Dockerfile.with-chrome .
             VERSION=`docker run --name=tmp --rm --entrypoint=/bin/sh aws-node-chrome -c "cat /node-version.txt /chrome-version.txt" | tr '\n' '-'`
             VERSION=${VERSION}linux
             echo $VERSION
             docker container rm --force tmp || true
-            docker image tag aws-node-chrome gawsoft/aws-node-chrome-libs:$VERSION
-            docker image push gawsoft/aws-node-chrome-libs:$VERSION
+            docker image tag aws-node-chrome gawsoft/aws-node-chrome:$VERSION
+            docker image push gawsoft/aws-node-chrome:$VERSION
             # Publish latest
-            docker image tag aws-node-chrome gawsoft/aws-node-chrome-libs:latest
-            docker image push gawsoft/aws-node-chrome-libs:latest
+            docker image tag aws-node-chrome gawsoft/aws-node-chrome:latest
+            docker image push gawsoft/aws-node-chrome:latest
         
