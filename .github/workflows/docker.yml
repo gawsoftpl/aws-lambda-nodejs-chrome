@@ -5,12 +5,12 @@ name: Publish docker
 
 on:
   schedule:
-    - cron: '25 15 * * *'
-  push:
-    branches: 
-    - 'main'
-    tags:
-    - '*'
+    - cron: '30 15 * * *'
+  # push:
+  #   branches: 
+  #   - 'main'
+    # tags:
+    # - '*'
 
 jobs:
   docker-build:
