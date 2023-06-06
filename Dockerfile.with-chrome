@@ -9,10 +9,11 @@ RUN echo -e '\
 name=google-chrome - 64-bit\n\
 baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64\n\
 enabled=1\n\
-gpgcheck=1\n\
+gpgcheck=0\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub\n\
 ' > /etc/yum.repos.d/google-chrome.repo 
 
+RUN yum update -y && yum install -y wget
 
 RUN yum update -y  \
     && yum install google-chrome-stable -y \
