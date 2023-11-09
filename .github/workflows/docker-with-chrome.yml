@@ -34,7 +34,7 @@ jobs:
 
     - name: Check version exists and Build the Docker image
       run: |
-            ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:16 -c "node --version"`
+            ACTUAL_NODE_VERSION=`docker run --rm --entrypoint=/bin/sh public.ecr.aws/lambda/nodejs:18 -c "node --version"`
             GOOGLE_VERSION=`curl "https://omahaproxy.appspot.com/all.json?os=linux;channel=stable" | jq '.[]' | jq .versions | jq -r '.[0].version'`
             CHECK_VERSION=${ACTUAL_NODE_VERSION}-${GOOGLE_VERSION}-linux
             

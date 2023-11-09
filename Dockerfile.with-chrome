@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:16 AS build-chrome
+FROM public.ecr.aws/lambda/nodejs:18 AS build-chrome
 
 # Install yarn
 RUN npm install --location=global yarn
